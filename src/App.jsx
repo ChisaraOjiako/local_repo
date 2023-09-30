@@ -34,7 +34,7 @@ const schedule = {
 };
 const courses = Object.values(schedule.courses)
 const App = () => {
-  return(<div>
+  return(<div className='App'>
     <Banner title = {schedule.title}/>
     <CourseList courses = {courses}/>
   </div>)
