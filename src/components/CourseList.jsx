@@ -4,6 +4,6 @@ import CourseCard from './CourseCard'
 export default function courseList({courses}) {
    return (
       <div className="course-list">
-      {courses.map((course)=><CourseCard course={course}/>)}
+      {Object.values(courses).map((course)=><CourseCard course={course}/>)}
       </div>) 
 }
