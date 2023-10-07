@@ -4,3 +4,8 @@
     margin: 20px 0px 0px 20px;
     gap: 8px;
 }
+
+.selected-courses {
+    background-color:lemonchiffon;
+    color: green;
+  }
