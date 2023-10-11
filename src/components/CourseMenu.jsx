@@ -43,9 +43,10 @@ export default function Main(){
     
     const CourseMenu = () => {
         const [selection, setSelection] = useState(() => Object.keys(terms)[0]);
+
         return (
             <div>
-                <Banner title = {data.title}/>
+                <Banner title = {data.title}/>       
                 <MenuSelector selection={selection} setSelection={setSelection} />
                 <Menu selection={selection} />
             </div>
