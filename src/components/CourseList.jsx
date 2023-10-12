@@ -1,8 +1,9 @@
 import "./CourseList.css";
 import CourseCard from "./CourseCard";
 import { useState } from "react";
-import Modal from './Modal';
+import Modal from "./Modal";
 import Cart from "./Cart";
+import hasConflict from "../utilities/Conflicts";
 
 export default function courseList({ courses, term }) {
   const [selected, setSelected] = useState([]);
@@ -18,11 +19,23 @@ export default function courseList({ courses, term }) {
         ? selected.filter((x) => x !== item)
         : [...selected, item]
     );
+  const conflicting_courses = Object.values(courses).filter((course) =>
+    hasConflict(course, selected)
+  );
   return (
     <div>
       <div className="course-list">
         {Object.values(courses).map((course) => {
-          if (course.term === term) {
+          if (conflicting_courses.includes(course) && course.term === term) {
+            return (
+              <div
+                className="conflicting-courses"
+              >
+                <CourseCard course={course} />
+              </div>
+            );
+          }
+          else if (course.term === term) {
             return (
               <div
                 className={selected.includes(course) ? "selected-courses" : ""}
@@ -35,12 +48,12 @@ export default function courseList({ courses, term }) {
         })}
       </div>
       <div>
-      <button className="course-plan-button" onClick={openModal}>
-        <i className="course-plan-icon">Course Plan</i>
-      </button>
-      <Modal open={open} close={closeModal}>
-        <Cart selectedCourses={selected} />
-      </Modal>
+        <button className="course-plan-button" onClick={openModal}>
+          <i className="course-plan-icon">Course Plan</i>
+        </button>
+        <Modal open={open} close={closeModal}>
+          <Cart selectedCourses={selected} />
+        </Modal>
       </div>
     </div>
   );
