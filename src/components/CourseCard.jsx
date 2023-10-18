@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./CourseCard.css"
 
 export default function CourseCard({ course }) {
   const [editing, setEditing] = useState(false);
@@ -21,6 +22,16 @@ export default function CourseCard({ course }) {
     setEditedMeets(course.meets);
   };
 
+  const verifyMeets = (meets) => {
+    if(meets === ""){
+      return true
+    }
+    const validMeets = /^(M|Tu|W|Th|F)+ \d{2}:\d{2}-\d{2}:\d{2}$/
+    console.log(validMeets.test(meets), meets)
+    return validMeets.test(meets)
+
+  }
+
   return (
     <div className="card-body">
       {editing ? (
@@ -29,14 +40,18 @@ export default function CourseCard({ course }) {
             type="text"
             placeholder="New title"
             value={editedTitle}
-            onChange={(e) => setEditedTitle(e.target.value)}
-          />
+            onChange={(e) => {setEditedTitle(e.target.value)}}
+          /> 
+          {editedTitle.length < 2 && (
+      <div className="title-error-message">Course title must be at least 2 characters</div>)}
           <input
             type="text"
             placeholder="New meets"
             value={editedMeets}
             onChange={(e) => setEditedMeets(e.target.value)}
           />
+          {!verifyMeets(editedMeets) && (
+      <div className="meets-error-message">Meets must contain days and start-end, e.g., MWF 12:00-13:20</div>)}
           {/* <button onClick={onSubmit}>Submit</button> */}
           <button onClick={handleCancel}>Cancel</button>
         </div>
