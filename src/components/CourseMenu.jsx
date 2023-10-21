@@ -1,14 +1,14 @@
 import Banner from "./Banner";
 import CourseList from "./CourseList";
 import { useState } from "react";
-import { useJsonQuery } from '../utilities/fetch';
+// import { useJsonQuery } from '../utilities/fetch';
+import { useDbData, useDbUpdate } from '../utilities/firebase';
 
 
 export default function Main(){
-    const [data, isLoading, error] = useJsonQuery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
+    const [data, error] = useDbData('/');
     
     if (error) return <h1>Error loading user data: {`${error}`}</h1>;
-    if (isLoading) return <h1>Loading user data...</h1>;
     if (!data) return <h1>No user data found</h1>;
 
     const terms = {
