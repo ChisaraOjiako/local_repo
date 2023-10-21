@@ -1,18 +1,39 @@
 import React, { useState } from 'react';
 import "./CourseCard.css"
+import {useDbUpdate } from '../utilities/firebase';
 
-export default function CourseCard({ course }) {
+
+export default function CourseCard({ course, id }) {
   const [editing, setEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(course.title);
   const [editedMeets, setEditedMeets] = useState(course.meets);
+  const [updateData, result] = useDbUpdate(`/courses/${id}`)
 
   const handleEdit = () => {
     setEditing(true);
   };
 
-  const onSubmit = () => {
-
+  const validChange = (meets, title) => { 
+    if(meets === editedTitle || title === editedMeets || !verifyMeets(meets) || !verifyTitle(title)){
+      console.log("Not A VALID CHANGE")
+      return false
+    }
+    setEditedTitle(title);
+    setEditedMeets(meets);
     setEditing(false);
+    return true
+  }
+
+  const onSubmit = () => {
+    if(validChange(editedMeets,editedTitle)){
+      
+      updateData({
+        title: editedTitle,
+        meets: editedMeets,
+        number: course.number,
+        term: course.term
+      });
+    }
   };
 
   const handleCancel = () => {
@@ -31,6 +52,9 @@ export default function CourseCard({ course }) {
     return validMeets.test(meets)
 
   }
+  const verifyTitle = (title) => {
+    return (title.length >= 2)
+  }
 
   return (
     <div className="card-body">
@@ -42,7 +66,7 @@ export default function CourseCard({ course }) {
             value={editedTitle}
             onChange={(e) => {setEditedTitle(e.target.value)}}
           /> 
-          {editedTitle.length < 2 && (
+          {!verifyTitle(editedTitle) && (
       <div className="title-error-message">Course title must be at least 2 characters</div>)}
           <input
             type="text"
@@ -52,7 +76,7 @@ export default function CourseCard({ course }) {
           />
           {!verifyMeets(editedMeets) && (
       <div className="meets-error-message">Meets must contain days and start-end, e.g., MWF 12:00-13:20</div>)}
-          {/* <button onClick={onSubmit}>Submit</button> */}
+          <button onClick={onSubmit}>Submit</button>
           <button onClick={handleCancel}>Cancel</button>
         </div>
       ) : (

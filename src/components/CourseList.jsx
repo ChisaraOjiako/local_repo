@@ -25,11 +25,11 @@ export default function courseList({ courses, term }) {
   return (
     <div>
       <div className="course-list">
-        {Object.values(courses).map((course) => {
+        {Object.values(courses).map((course, index) => {
           if (conflicting_courses.includes(course) && course.term === term) {
             return (
               <div
-                className="conflicting-courses"
+                className="conflicting-courses" key={index}
               >
                 <CourseCard course={course} />
               </div>
@@ -39,9 +39,9 @@ export default function courseList({ courses, term }) {
             return (
               <div
                 className={selected.includes(course) ? "selected-courses" : ""}
-                onClick={() => toggleSelected(course)}
+                onClick={() => toggleSelected(course)} key={index}
               >
-                <CourseCard course={course} />
+                <CourseCard course={course} id = {index} />
               </div>
             );
           }
