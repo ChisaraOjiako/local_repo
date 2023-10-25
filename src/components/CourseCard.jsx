@@ -10,8 +10,11 @@ export default function CourseCard({ course, id }) {
   const [editedMeets, setEditedMeets] = useState(course.meets);
   const [updateData, result] = useDbUpdate(`/courses/${id}`)
 
+  const [user] = useAuthState();
+
   const handleEdit = () => {
-    setEditing(true);
+    user ?
+    setEditing(true): setEditing(false)
   };
 
   const validChange = (meets, title) => { 
@@ -56,8 +59,6 @@ export default function CourseCard({ course, id }) {
   const verifyTitle = (title) => {
     return (title.length >= 2)
   }
-
-  const [user] = useAuthState();
 
   return (
     

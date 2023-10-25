@@ -19,8 +19,8 @@ const activation = ({isActive}) => isActive ? 'active' : 'inactive';
 
 const Navigation = () => (
   <nav className="d-flex">
-    <NavLink to="/" className={activation} end>Posts</NavLink>
-    <NavLink to="/users" className={activation} end>Users</NavLink>
+    {/* <NavLink to="/" className={activation} end>Posts</NavLink>
+    <NavLink to="/users" className={activation} end>Users</NavLink> */}
     <AuthButton />
   </nav>
 );
