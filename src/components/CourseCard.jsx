@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import "./CourseCard.css"
 import {useDbUpdate } from '../utilities/firebase';
+import { useAuthState } from '../utilities/firebase';
 
 
 export default function CourseCard({ course, id }) {
@@ -56,7 +57,10 @@ export default function CourseCard({ course, id }) {
     return (title.length >= 2)
   }
 
+  const [user] = useAuthState();
+
   return (
+    
     <div className="card-body">
       {editing ? (
         <div>
