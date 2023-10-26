@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "./CourseCard.css"
 import {useDbUpdate } from '../utilities/firebase';
 import { useAuthState } from '../utilities/firebase';
+import { useProfile } from '../utilities/profile';
 
 
 export default function CourseCard({ course, id }) {
@@ -9,11 +10,13 @@ export default function CourseCard({ course, id }) {
   const [editedTitle, setEditedTitle] = useState(course.title);
   const [editedMeets, setEditedMeets] = useState(course.meets);
   const [updateData, result] = useDbUpdate(`/courses/${id}`)
+  
 
-  const [user] = useAuthState();
+  const [{ user, isAdmin }, isLoading, error] = useProfile()
+  
 
   const handleEdit = () => {
-    user ?
+    user && isAdmin ?
     setEditing(true): setEditing(false)
   };
 
@@ -91,7 +94,7 @@ export default function CourseCard({ course, id }) {
           </h5>
           <p className="card-text">{course.title}</p>
           <p className="card-text">{course.meets}</p>
-          <button onClick={handleEdit}>Edit</button>
+          {isAdmin?<button onClick={handleEdit}>Edit</button>:null }        
         </div>
       )}
     </div>
