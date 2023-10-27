@@ -8,7 +8,9 @@
     "serve": "vite preview",
     "test": "vitest --ui",
     "coverage": "vitest run --coverage",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "em:exec": "process.env.REACT_APP_EMULATE)",
+    "em:cy:open": "start-server-and-test em:exec http://127.0.0.1:3000 cy:open"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.35.7",

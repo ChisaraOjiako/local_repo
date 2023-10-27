@@ -88,7 +88,7 @@ export default function CourseCard({ course, id }) {
           <button onClick={handleCancel}>Cancel</button>
         </div>
       ) : (
-        <div>
+        <div className="course-card" data-cy="course">
           <h5 className="card-title">
             {course.term} CS {course.number}
           </h5>
